@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pri.Pe1.Timo.Blomme.Web", "Pri.Pe1.Timo.Blomme.Web\Pri.Pe1.Timo.Blomme.Web.csproj", "{F8F2D420-9BDC-4D03-B6D3-F0DEB6CF3DBF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7DFCA46C-5366-4B7F-B7EC-7F695EFC40AE} = {7DFCA46C-5366-4B7F-B7EC-7F695EFC40AE}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pri.Pe1.Timo.Blomme.core", "Pri.Pe1.Timo.Blomme.core\Pri.Pe1.Timo.Blomme.core.csproj", "{7DFCA46C-5366-4B7F-B7EC-7F695EFC40AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F8F2D420-9BDC-4D03-B6D3-F0DEB6CF3DBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8F2D420-9BDC-4D03-B6D3-F0DEB6CF3DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8F2D420-9BDC-4D03-B6D3-F0DEB6CF3DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8F2D420-9BDC-4D03-B6D3-F0DEB6CF3DBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DFCA46C-5366-4B7F-B7EC-7F695EFC40AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DFCA46C-5366-4B7F-B7EC-7F695EFC40AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DFCA46C-5366-4B7F-B7EC-7F695EFC40AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DFCA46C-5366-4B7F-B7EC-7F695EFC40AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {06224C21-CE4E-436E-8483-63ACE403920D}
+	EndGlobalSection
+EndGlobal
