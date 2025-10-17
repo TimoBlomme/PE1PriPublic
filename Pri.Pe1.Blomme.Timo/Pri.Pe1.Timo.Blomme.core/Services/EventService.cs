@@ -32,7 +32,7 @@ namespace Pri.Pe1.Timo.Blomme.core.Services
 
         public async Task<ResultModel<Event>> GetByIdAsync(int id)
         {
-            var ev = await _context.Events.Include(e => e.Participants).FirstOrDefaultAsync(e => e.Id == id);
+            Event? ev = await _context.Events.Include(e => e.Participants).FirstOrDefaultAsync(e => e.Id == id);
             if (ev == null)
                 return new ResultModel<Event> { IsSuccess = false, Errors = new[] { "Event not found" } };
 
@@ -44,7 +44,7 @@ namespace Pri.Pe1.Timo.Blomme.core.Services
             if (await _context.Events.AnyAsync(e => e.Title.ToUpper() == model.Title.ToUpper()))
                 return new BaseResultModel { IsSuccess = false, Errors = new[] { "Event title already exists" } };
 
-            var ev = new Event
+            Event? ev = new Event
             {
                 Title = model.Title,
                 Date = model.Date,
@@ -58,7 +58,7 @@ namespace Pri.Pe1.Timo.Blomme.core.Services
 
         public async Task<BaseResultModel> UpdateAsync(EventUpdateRequestModel model)
         {
-            var ev = await _context.Events.FindAsync(model.Id);
+            Event? ev = await _context.Events.FindAsync(model.Id);
             if (ev == null)
                 return new BaseResultModel { IsSuccess = false, Errors = new[] { "Event not found" } };
 
@@ -72,7 +72,7 @@ namespace Pri.Pe1.Timo.Blomme.core.Services
 
         public async Task<BaseResultModel> DeleteAsync(int id)
         {
-            var ev = await _context.Events.FindAsync(id);
+            Event? ev = await _context.Events.FindAsync(id);
             if (ev == null)
                 return new BaseResultModel { IsSuccess = false, Errors = new[] { "Event not found" } };
 

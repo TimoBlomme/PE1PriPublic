@@ -8,8 +8,8 @@ namespace Pri.Pe1.Timo.Blomme.core.Models.RequestModels
 {
     public class ParticipantCreateRequestModel
     {
-        public string Name { get; set; } = default!;
-        public string Email { get; set; } = default!;
+        public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
         public int EventId { get; set; }
     }
 }

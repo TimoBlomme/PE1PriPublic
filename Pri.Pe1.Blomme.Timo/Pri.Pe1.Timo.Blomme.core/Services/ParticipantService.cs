@@ -32,7 +32,7 @@ namespace Pri.Pe1.Timo.Blomme.core.Services
 
         public async Task<ResultModel<Participant>> GetByIdAsync(int id)
         {
-            var participant = await _context.Participants.Include(p => p.Event).FirstOrDefaultAsync(p => p.Id == id);
+            Participant? participant = await _context.Participants.Include(p => p.Event).FirstOrDefaultAsync(p => p.Id == id);
             if (participant == null)
                 return new ResultModel<Participant> { IsSuccess = false, Errors = new[] { "Participant not found" } };
 
@@ -44,7 +44,7 @@ namespace Pri.Pe1.Timo.Blomme.core.Services
             if (!await _context.Events.AnyAsync(e => e.Id == model.EventId))
                 return new BaseResultModel { IsSuccess = false, Errors = new[] { "Event not found" } };
 
-            var participant = new Participant
+            Participant? participant = new Participant
             {
                 Name = model.Name,
                 Email = model.Email,
@@ -57,7 +57,7 @@ namespace Pri.Pe1.Timo.Blomme.core.Services
 
         public async Task<BaseResultModel> UpdateAsync(ParticipantUpdateRequestModel model)
         {
-            var participant = await _context.Participants.FindAsync(model.Id);
+            Participant? participant = await _context.Participants.FindAsync(model.Id);
             if (participant == null)
                 return new BaseResultModel { IsSuccess = false, Errors = new[] { "Participant not found" } };
 
@@ -70,7 +70,7 @@ namespace Pri.Pe1.Timo.Blomme.core.Services
 
         public async Task<BaseResultModel> DeleteAsync(int id)
         {
-            var participant = await _context.Participants.FindAsync(id);
+            Participant? participant = await _context.Participants.FindAsync(id);
             if (participant == null)
                 return new BaseResultModel { IsSuccess = false, Errors = new[] { "Participant not found" } };
 

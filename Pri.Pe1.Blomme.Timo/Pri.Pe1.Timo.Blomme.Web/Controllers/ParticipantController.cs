@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Pri.Pe1.Timo.Blomme.core.Interfaces;
+using Pri.Pe1.Timo.Blomme.core.Entities;
+using Pri.Pe1.Timo.Blomme.core.Models;
 using Pri.Pe1.Timo.Blomme.core.Models.RequestModels;
 
 namespace Pri.Pe1.Timo.Blomme.Web.Controllers
@@ -19,7 +21,7 @@ namespace Pri.Pe1.Timo.Blomme.Web.Controllers
         // GET: Participant
         public async Task<IActionResult> Index()
         {
-            var result = await _participantService.GetAllAsync();
+            ResultModel<Participant> result = await _participantService.GetAllAsync();
             if (!result.IsSuccess)
             {
                 TempData["Error"] = "Failed to load participants.";
@@ -31,7 +33,7 @@ namespace Pri.Pe1.Timo.Blomme.Web.Controllers
         // GET: Participant/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var result = await _participantService.GetByIdAsync(id);
+            ResultModel<Participant> result = await _participantService.GetByIdAsync(id);
             if (!result.IsSuccess || result.Items == null || !result.Items.Any())
             {
                 TempData["Error"] = "Participant not found.";
@@ -58,14 +60,14 @@ namespace Pri.Pe1.Timo.Blomme.Web.Controllers
                 return View(model);
             }
 
-            var result = await _participantService.CreateAsync(model);
+            BaseResultModel result = await _participantService.CreateAsync(model);
             if (result.IsSuccess)
             {
                 TempData["Success"] = "Participant created successfully!";
                 return RedirectToAction(nameof(Index));
             }
 
-            foreach (var error in result.Errors ?? Enumerable.Empty<string>())
+            foreach (string error in result.Errors ?? Enumerable.Empty<string>())
             {
                 ModelState.AddModelError("", error);
             }
@@ -76,15 +78,15 @@ namespace Pri.Pe1.Timo.Blomme.Web.Controllers
         // GET: Participant/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var result = await _participantService.GetByIdAsync(id);
+            ResultModel<Participant> result = await _participantService.GetByIdAsync(id);
             if (!result.IsSuccess || result.Items == null || !result.Items.Any())
             {
                 TempData["Error"] = "Participant not found.";
                 return RedirectToAction(nameof(Index));
             }
 
-            var participant = result.Items.First();
-            var updateModel = new ParticipantUpdateRequestModel
+            Participant participant = result.Items.First();
+            ParticipantUpdateRequestModel updateModel = new ParticipantUpdateRequestModel
             {
                 Id = participant.Id,
                 Name = participant.Name,
@@ -113,14 +115,14 @@ namespace Pri.Pe1.Timo.Blomme.Web.Controllers
                 return View(model);
             }
 
-            var result = await _participantService.UpdateAsync(model);
+            BaseResultModel result = await _participantService.UpdateAsync(model);
             if (result.IsSuccess)
             {
                 TempData["Success"] = "Participant updated successfully!";
                 return RedirectToAction(nameof(Index));
             }
 
-            foreach (var error in result.Errors ?? Enumerable.Empty<string>())
+            foreach (string error in result.Errors ?? Enumerable.Empty<string>())
             {
                 ModelState.AddModelError("", error);
             }
@@ -131,7 +133,7 @@ namespace Pri.Pe1.Timo.Blomme.Web.Controllers
         // GET: Participant/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _participantService.GetByIdAsync(id);
+            ResultModel<Participant> result = await _participantService.GetByIdAsync(id);
             if (!result.IsSuccess || result.Items == null || !result.Items.Any())
             {
                 TempData["Error"] = "Participant not found.";
@@ -145,7 +147,7 @@ namespace Pri.Pe1.Timo.Blomme.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var result = await _participantService.DeleteAsync(id);
+            BaseResultModel result = await _participantService.DeleteAsync(id);
             if (result.IsSuccess)
             {
                 TempData["Success"] = "Participant deleted successfully!";
@@ -159,7 +161,7 @@ namespace Pri.Pe1.Timo.Blomme.Web.Controllers
 
         private async Task PopulateEventsViewBag()
         {
-            var eventsResult = await _eventService.GetAllAsync();
+            ResultModel<Event> eventsResult = await _eventService.GetAllAsync();
             if (eventsResult.IsSuccess && eventsResult.Items != null)
             {
                 ViewBag.Events = new SelectList(eventsResult.Items, "Id", "Title");

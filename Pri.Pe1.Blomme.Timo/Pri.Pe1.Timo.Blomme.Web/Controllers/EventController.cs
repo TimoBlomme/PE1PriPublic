@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Pri.Pe1.Timo.Blomme.core.Interfaces;
+using Pri.Pe1.Timo.Blomme.core.Entities;
+using Pri.Pe1.Timo.Blomme.core.Models;
 using Pri.Pe1.Timo.Blomme.core.Models.RequestModels;
 
 namespace Pri.Pe1.Timo.Blomme.Web.Controllers
@@ -16,7 +18,7 @@ namespace Pri.Pe1.Timo.Blomme.Web.Controllers
         // GET: Event
         public async Task<IActionResult> Index()
         {
-            var result = await _eventService.GetAllAsync();
+            ResultModel<Event> result = await _eventService.GetAllAsync();
             if (!result.IsSuccess)
             {
                 TempData["Error"] = "Failed to load events.";
@@ -28,7 +30,7 @@ namespace Pri.Pe1.Timo.Blomme.Web.Controllers
         // GET: Event/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var result = await _eventService.GetByIdAsync(id);
+            ResultModel<Event> result = await _eventService.GetByIdAsync(id);
             if (!result.IsSuccess || result.Items == null || !result.Items.Any())
             {
                 TempData["Error"] = "Event not found.";
@@ -53,14 +55,14 @@ namespace Pri.Pe1.Timo.Blomme.Web.Controllers
                 return View(model);
             }
 
-            var result = await _eventService.CreateAsync(model);
+            BaseResultModel result = await _eventService.CreateAsync(model);
             if (result.IsSuccess)
             {
                 TempData["Success"] = "Event created successfully!";
                 return RedirectToAction(nameof(Index));
             }
 
-            foreach (var error in result.Errors ?? Enumerable.Empty<string>())
+            foreach (string error in result.Errors ?? Enumerable.Empty<string>())
             {
                 ModelState.AddModelError("", error);
             }
@@ -70,15 +72,15 @@ namespace Pri.Pe1.Timo.Blomme.Web.Controllers
         // GET: Event/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var result = await _eventService.GetByIdAsync(id);
+            ResultModel<Event> result = await _eventService.GetByIdAsync(id);
             if (!result.IsSuccess || result.Items == null || !result.Items.Any())
             {
                 TempData["Error"] = "Event not found.";
                 return RedirectToAction(nameof(Index));
             }
 
-            var eventEntity = result.Items.First();
-            var updateModel = new EventUpdateRequestModel
+            Event eventEntity = result.Items.First();
+            EventUpdateRequestModel updateModel = new EventUpdateRequestModel
             {
                 Id = eventEntity.Id,
                 Title = eventEntity.Title,
@@ -106,14 +108,14 @@ namespace Pri.Pe1.Timo.Blomme.Web.Controllers
                 return View(model);
             }
 
-            var result = await _eventService.UpdateAsync(model);
+            BaseResultModel result = await _eventService.UpdateAsync(model);
             if (result.IsSuccess)
             {
                 TempData["Success"] = "Event updated successfully!";
                 return RedirectToAction(nameof(Index));
             }
 
-            foreach (var error in result.Errors ?? Enumerable.Empty<string>())
+            foreach (string error in result.Errors ?? Enumerable.Empty<string>())
             {
                 ModelState.AddModelError("", error);
             }
@@ -123,7 +125,7 @@ namespace Pri.Pe1.Timo.Blomme.Web.Controllers
         // GET: Event/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _eventService.GetByIdAsync(id);
+            ResultModel<Event>? result = await _eventService.GetByIdAsync(id);
             if (!result.IsSuccess || result.Items == null || !result.Items.Any())
             {
                 TempData["Error"] = "Event not found.";
@@ -137,7 +139,7 @@ namespace Pri.Pe1.Timo.Blomme.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var result = await _eventService.DeleteAsync(id);
+            BaseResultModel result = await _eventService.DeleteAsync(id);
             if (result.IsSuccess)
             {
                 TempData["Success"] = "Event deleted successfully!";

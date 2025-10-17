@@ -8,9 +8,9 @@ namespace Pri.Pe1.Timo.Blomme.core.Models.RequestModels
 {
     public class EventCreateRequestModel
     {
-        public string Title { get; set; } = default!;
+        public string Title { get; set; } = string.Empty;
         public DateTime Date { get; set; }
-        public string Location { get; set; } = default!;
+        public string Location { get; set; } = string.Empty;
         public int MaxParticipants { get; set; }
     }
 }
